@@ -1,0 +1,16 @@
+incluir "funciones.java"
+
+clase numero:
+	propiedades:
+		archivos:
+			archivo1 reporte1.xslx;
+		variables:
+			numero b, i;
+	metodos:
+		funcion contador():
+			codigo:
+				propiedad.i = propiedad.i + 5;
+				3+5*2
+				3 AND 5
+				5 OR 3
+

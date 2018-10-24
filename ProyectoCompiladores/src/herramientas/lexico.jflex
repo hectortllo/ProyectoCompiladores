@@ -81,35 +81,35 @@ OperadorLogico = AND | OR
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
-    tokens.get(contador).setNombre("Tipo de dato");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" tipo de dato ");
 }
 {ArchivoExcel} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Archivo");
-    tokens.get(contador).setNombre("Archivo excel");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Archivo excel ");
 }
 {PalClavFuncion} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Función");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavIncluir} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Incluir");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavClase} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("clase");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
     /*for(int i=0; i<=contador; i++){
         System.out.println("Tipo de token: " + tokens.get(i).getTipo_token());
@@ -121,100 +121,140 @@ OperadorLogico = AND | OR
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Propiedades");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavVariables} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Variables");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavCodigo} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Código");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavMetodos} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Métodos");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavRetornar} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Retornar");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavEscribir} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Escribir");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavAbrir} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Abrir");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavInstanciar} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Instanciar");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavPropiedad} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Propiedad");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
 {PalClavArchivos} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Archivos");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
 }
-{Argumentos} {
+/*{Argumentos} {
     System.out.print(" Argumento ");
-}
+}*/
 {OperadorLogico} {
-    System.out.print(" Lógico ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operador Lógico");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Lógico ");
 }
 {Numeros} {
-    System.out.print(" Números ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Números");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Números ");
 }
 {identificador} {
-    System.out.print(" Identificador ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Identificador");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Identificador ");
 }
 {OperadorMatematico} {
-    System.out.print(" Matemático ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operador matemático");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Matemático ");
 }
 {PuntoYComa} {
-    System.out.print(" Fin de línea ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Fin de línea");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Fin de línea ");
 }
 {CondicionMayor} {
-    System.out.print(" Mayor que ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Condiciones");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Mayor que ");
 }
 {CondicionMenor} {
-    System.out.print(" Menor que ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Condiciones");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Menor que ");
 }
 {CondicionIgual} {
-    System.out.print(" Igual que ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Condiciones");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Igual que ");
 }
 {CondicionDiferente} {
-    System.out.print(" Diferente que ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Condiciones");
+    tokens.get(contador).setNombre(yytext());
+    //System.out.print(" Diferente que ");
+    for(int i=0; i<=contador; i++){
+        System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
+        System.out.println("    Nombre: " + tokens.get(i).getNombre());
+    }
 }
 . { }

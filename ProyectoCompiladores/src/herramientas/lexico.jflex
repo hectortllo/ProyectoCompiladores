@@ -12,46 +12,130 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = \s
 Numeros = 0 | [1-9][0-9]*
 Letras = [a-zA-Z]*
+LetrasIdentificador = [a-z]*
 
-DeclaracionFunciones = funcion 
 ParentesisAbre = \(
 ParentesisCierre = \)
 PuntoYComa = \;
 DosPuntos = \:
 GuionBajo = \_
-identificador = {Letras} | {Letras}{Numeros}
-Argumentos = {TipoDeDato}{WhiteSpace}{identificador}
-Principal = {DeclaracionFunciones}{WhiteSpace}numero{WhiteSpace}principal{ParentesisAbre}{ParentesisCierre}{DosPuntos} |
-            {DeclaracionFunciones}{WhiteSpace}numero{WhiteSpace}principal{ParentesisAbre}{Argumentos}
-                {ParentesisCierre}{DosPuntos}
-PalabrasClave = incluir | clase | propiedades | variables | codigo | metodos | retornar | escribir | abrir | 
-                instanciar | propiedad | archivos
+Punto = \.
+Igual = \=
+Diferente = \!
+CondicionMayor = \>
+CondicionMenor = \<
+CondicionIgual = {Igual}{Igual}
+CondicionDiferente = {Diferente}{Igual}
 
-OperadorMatematico = \+ | \- | \* | \/ | \= | \^
+identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros}
+Argumentos = {ParentesisAbre}{TipoDeDato}{WhiteSpace}{identificador}{ParentesisCierre}
+
+DeclaracionPrincipal = {PalClavFuncion}{WhiteSpace}numero{WhiteSpace}{PalClavPrincipal}{ParentesisAbre}{ParentesisCierre}{DosPuntos} |
+            {PalClavFuncion}{WhiteSpace}numero{WhiteSpace}{PalClavPrincipal}{Argumentos}{DosPuntos}
+DeclaracionClase = {PalClavClase}{WhiteSpace}{identificador}{DosPuntos}
+ArchivoExcel = {identificador}{Punto}xslx
+
+PalClavIterar = iterar
+PalClavIncDec = incrementar | decrementar
+PalClavDesde = desde
+PalClavMientras = mientras
+PalClavPrincipal = principal
+PalClavFuncion = funcion
+PalClavIncluir = incluir
+PalClavClase = clase
+PalClavPropiedades = propiedades
+PalClavVariables = variables
+PalClavCodigo = codigo
+PalClavMetodos = metodos
+PalClavRetornar = retornar
+PalClavEscribir = escribir
+PalClavAbrir = abrir
+PalClavInstanciar = instanciar
+PalClavPropiedad = propiedad
+PalClavArchivos = archivos
+
+OperadorMatematico = \+ | \- | \* | \/ | \= | \^ | \%
 OperadorLogico = AND | OR
 %%
-{Principal} {
-    System.out.print("Función principal");
+{DeclaracionPrincipal} {
+    System.out.print(" Función principal ");
 }
+/*{DeclaracionClase} {
+    System.out.print(" Declaración clase ");
+}*/
 {TipoDeDato} {
-    System.out.print("tipo de dato");
+    System.out.print(" tipo de dato ");
 }
-{PalabrasClave} {
-    System.out.print("Palabra clave");
+{ArchivoExcel} {
+    System.out.print(" Archivo excel ");
+}
+{PalClavFuncion} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavIncluir} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavClase} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavPropiedades} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavVariables} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavCodigo} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavMetodos} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavRetornar} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavEscribir} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavAbrir} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavInstanciar} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavPropiedad} {
+    System.out.print(" Palabra clave ");
+}
+{PalClavArchivos} {
+    System.out.print(" Palabra clave ");
 }
 {Argumentos} {
-    System.out.print("Argumento");
+    System.out.print(" Argumento ");
 }
 {OperadorLogico} {
-    System.out.print("Lógico");
+    System.out.print(" Lógico ");
 }
 {Numeros} {
-    System.out.print("Números");
+    System.out.print(" Números ");
 }
 {identificador} {
-    System.out.print("Identificador");
+    System.out.print(" Identificador ");
 }
 {OperadorMatematico} {
-    System.out.print("Matemático");
+    System.out.print(" Matemático ");
+}
+{PuntoYComa} {
+    System.out.print(" Fin de línea ");
+}
+{CondicionMayor} {
+    System.out.print(" Mayor que ");
+}
+{CondicionMenor} {
+    System.out.print(" Menor que ");
+}
+{CondicionIgual} {
+    System.out.print(" Igual que ");
+}
+{CondicionDiferente} {
+    System.out.print(" Diferente que ");
 }
 . { }

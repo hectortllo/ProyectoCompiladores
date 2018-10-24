@@ -1,6 +1,6 @@
 incluir "funciones.java"
 
-clase numero:
+clase nombreClase:
 	propiedades:
 		archivos:
 			archivo1 reporte1.xslx;
@@ -13,4 +13,19 @@ clase numero:
 				3+5*2
 				3 AND 5
 				5 OR 3
+				5 > 3
+				3 < 5
+				3 == 8
+				3 != 2
+				desde(i=0 mientras i<5 incrementar 2) iterar:
 
+funcion numero principal():
+funcion numero principal(numero num):
+
+/*
+Dudas:
+	1. ¿El archivo a "incluir" tiene cualquier extensión?
+	2. Objeto persona = new Objeto es una instancia de una 	clase o declaración de clase
+	3. a = 0; ¿Inicialización de variable o identificador, matemático, número, punto y coma?
+	4. ¿Los ciclos en su condición solo van a poder tener menor y mayor que o también diferente e igual?
+*/

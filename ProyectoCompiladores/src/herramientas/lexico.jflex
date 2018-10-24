@@ -1,12 +1,22 @@
 package herramientas;
+import proyectocompiladores.ArrayListTokens;
+import java.util.ArrayList;
 
 %%
 %class Lexico
 %line
 %column
 %public
-%standalone
 
+%standalone
+%init{
+    this.tokens = new ArrayList<>();
+%init}
+
+%{
+    public static ArrayList<ArrayListTokens> tokens;
+    public static int contador = -1;
+%}
 TipoDeDato = cadena | numero | booleano
 LineTerminator = \r|\n|\r\n
 WhiteSpace = \s
@@ -58,55 +68,124 @@ OperadorMatematico = \+ | \- | \* | \/ | \= | \^ | \%
 OperadorLogico = AND | OR
 %%
 {DeclaracionPrincipal} {
-    System.out.print(" Función principal ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Función Principal");
+    //System.out.print(" Función principal ");
 }
 /*{DeclaracionClase} {
     System.out.print(" Declaración clase ");
 }*/
 {TipoDeDato} {
-    System.out.print(" tipo de dato ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre("Tipo de dato");
+    //System.out.print(" tipo de dato ");
 }
 {ArchivoExcel} {
-    System.out.print(" Archivo excel ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Archivo");
+    tokens.get(contador).setNombre("Archivo excel");
+    //System.out.print(" Archivo excel ");
 }
 {PalClavFuncion} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Función");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavIncluir} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Incluir");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavClase} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("clase");
+    //System.out.print(" Palabra clave ");
+    /*for(int i=0; i<=contador; i++){
+        System.out.println("Tipo de token: " + tokens.get(i).getTipo_token());
+        System.out.println("Tipo de token: " + tokens.get(i).getNombre());
+    }*/
+    //    System.out.println("Clase");
 }
 {PalClavPropiedades} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Propiedades");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavVariables} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Variables");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavCodigo} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Código");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavMetodos} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Métodos");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavRetornar} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Retornar");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavEscribir} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Escribir");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavAbrir} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Abrir");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavInstanciar} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Instanciar");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavPropiedad} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Propiedad");
+    //System.out.print(" Palabra clave ");
 }
 {PalClavArchivos} {
-    System.out.print(" Palabra clave ");
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra Clave");
+    tokens.get(contador).setNombre("Archivos");
+    //System.out.print(" Palabra clave ");
 }
 {Argumentos} {
     System.out.print(" Argumento ");

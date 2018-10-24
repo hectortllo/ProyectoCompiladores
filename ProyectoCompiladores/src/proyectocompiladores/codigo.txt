@@ -1,5 +1,7 @@
 incluir "funciones.java"
 
+funcion numero principal():
+funcion numero principal(numero num):
 clase nombreClase:
 	propiedades:
 		archivos:
@@ -17,10 +19,7 @@ clase nombreClase:
 				3 < 5
 				3 == 8
 				3 != 2
-				desde(i=0 mientras i<5 incrementar 2) iterar:
 
-funcion numero principal():
-funcion numero principal(numero num):
 
 /*
 Dudas:
@@ -28,4 +27,7 @@ Dudas:
 	2. Objeto persona = new Objeto es una instancia de una 	clase o declaración de clase
 	3. a = 0; ¿Inicialización de variable o identificador, matemático, número, punto y coma?
 	4. ¿Los ciclos en su condición solo van a poder tener menor y mayor que o también diferente e igual?
+	5. ¿Importan los dos puntos al final de propiedades:?
+	6. Forma de declarar un ciclo
+	
 */

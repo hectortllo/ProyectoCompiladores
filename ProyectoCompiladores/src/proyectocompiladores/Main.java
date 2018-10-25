@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import herramientas.Lexico;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -29,7 +30,11 @@ public class Main {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+            ArrayList<ArrayListTokens> tokens = Lexico.tokens;
+            for(int i = 0; i < tokens.size()-1; i++){
+                System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
+                System.out.println(" - Nombre: " + tokens.get(i).getNombre());
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -19,13 +19,3 @@ clase nombreClase:
 				3 < 5
 				3 == 8
 				3 != 2
-
-
-/*
-Dudas:
-	1. ¿El archivo a "incluir" tiene cualquier extensión?
-	2. Objeto persona = new Objeto es una instancia de una 	clase o declaración de clase
-	5. ¿Importan los dos puntos al final de propiedades:?
-	6. Forma de declarar un ciclo
-	
-*/

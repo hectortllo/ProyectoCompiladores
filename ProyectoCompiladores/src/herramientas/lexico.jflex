@@ -277,9 +277,5 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Condiciones");
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" Diferente que ");
-    for(int i=0; i<=contador; i++){
-        System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
-        System.out.println("    Nombre: " + tokens.get(i).getNombre());
-    }
 }
 . { }

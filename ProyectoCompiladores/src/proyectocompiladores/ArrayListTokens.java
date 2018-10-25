@@ -9,7 +9,7 @@ package proyectocompiladores;
  *
  * @author Héctor Tello, hectortllo@gmail.com
  */
-public class ArrayListTokens {
+public class ArrayListTokens implements Comparable<ArrayListTokens>{
 
     public String getTipo_token() {
         return tipo_token;
@@ -29,4 +29,9 @@ public class ArrayListTokens {
 
     private String tipo_token;
     private String nombre;
+
+    @Override
+    public int compareTo(ArrayListTokens o) {
+        return tipo_token.compareTo(o.tipo_token);
+    }
 }

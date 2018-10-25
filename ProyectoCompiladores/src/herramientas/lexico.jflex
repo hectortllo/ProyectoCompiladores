@@ -18,33 +18,54 @@ import java.util.ArrayList;
     public static int contador = -1;
 %}
 TipoDeDato = cadena | numero | booleano
-LineTerminator = \r|\n|\r\n
+SaltoDeLinea = \n
 WhiteSpace = \s
 Numeros = 0 | [1-9][0-9]*
 Letras = [a-zA-Z]*
 LetrasIdentificador = [a-z]*
+ArchivoLed = {identificador}{Punto}led
+Mensaje = {Comillas}({WhiteSpace}*{Letras}*{WhiteSpace}*)*{Comillas}
+Comentarios = {Diagonal}{Diagonal}({WhiteSpace}*{Letras}*{WhiteSpace}*)*{SaltoDeLinea}
 
+Diagonal = \/
 ParentesisAbre = \(
 ParentesisCierre = \)
+CorcheteAbre = \[
+CorcheteCierre = \]
 Comillas = \"
 PuntoYComa = \;
 DosPuntos = \:
+Coma = \,
 GuionBajo = \_
 Punto = \.
 Igual = \=
 Diferente = \!
 CondicionMayor = \>
 CondicionMenor = \<
+Suma = \+
+Resta = \-
 CondicionIgual = {Igual}{Igual}
 CondicionDiferente = {Diferente}{Igual}
 
-identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros}
-ArchivoExcel = {identificador}{Punto}xslx
+ArchivoSuma = {Punto}suma
+ArchivoResta = {Punto}resta
+ArchivoPromedio = {Punto}promedio
+ArchivoModa = {Punto}moda
+ArchivoMedia = {Punto}media
+ArchivoMayor = {Punto}mayor
+ArchivoMenor = {Punto}menor
+
+identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros} | 
+                {LetrasIdentificador}{GuionBajo}{Letras}{Numeros}*
+ArchivoExcel = {identificador}{Punto}xslx | {identificador}{Punto}ods
 
 PalClavIterar = iterar
-PalClavIncDec = incrementar | decrementar
+PalClavEn = en
+PalClavInc = incrementar 
+PalClavDec = decrementar
 PalClavDesde = desde
 PalClavMientras = mientras
+PalClavParacada = paracada
 PalClavPrincipal = principal
 PalClavFuncion = funcion
 PalClavIncluir = incluir
@@ -59,11 +80,26 @@ PalClavAbrir = abrir
 PalClavInstanciar = instanciar
 PalClavPropiedad = propiedad
 PalClavArchivos = archivos
+PalClavSi = si
+PalClavSiNo = sino
+PalClavEntonces = entonces
 
-OperadorMatematico = \+ | \- | \* | \/ | \= | \^ | \%
+OperadorMatematico = {Suma} | {Resta} | \* | \/ | \= | \^ | \% | {Suma}{Suma} | {Resta}{Resta}
 OperadorLogico = AND | OR
 %%
 {WhiteSpace} {
+}
+{Mensaje} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Mensaje");
+    tokens.get(contador).setNombre(yytext());
+}
+{Comentarios} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Comentarios");
+    tokens.get(contador).setNombre(yytext());
 }
 {PalClavPrincipal} {
     tokens.add(new ArrayListTokens());
@@ -86,6 +122,48 @@ OperadorLogico = AND | OR
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" Archivo excel ");
 }
+{ArchivoSuma} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoResta} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoPromedio} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoModa} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoMedia} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoMayor} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoMenor} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operación con archivo");
+    tokens.get(contador).setNombre(yytext());
+}
 {DosPuntos} {
     tokens.add(new ArrayListTokens());
     contador++;
@@ -104,6 +182,18 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
 }
+{CorcheteAbre} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{CorcheteCierre} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
 {Comillas} {
     tokens.add(new ArrayListTokens());
     contador++;
@@ -114,6 +204,42 @@ OperadorLogico = AND | OR
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{Coma} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{ArchivoLed} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Archivo a incluir");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavEn} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavSi} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavEntonces} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavSiNo} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
 }
 {PalClavFuncion} {
@@ -211,6 +337,42 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
+}
+{PalClavDesde} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavMientras} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavInc} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavDec} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavIterar} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
+}
+{PalClavParacada} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setNombre(yytext());
 }
 /*{Argumentos} {
     System.out.print(" Argumento ");

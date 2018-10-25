@@ -26,6 +26,7 @@ LetrasIdentificador = [a-z]*
 
 ParentesisAbre = \(
 ParentesisCierre = \)
+Comillas = \"
 PuntoYComa = \;
 DosPuntos = \:
 GuionBajo = \_
@@ -38,11 +39,6 @@ CondicionIgual = {Igual}{Igual}
 CondicionDiferente = {Diferente}{Igual}
 
 identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros}
-Argumentos = {ParentesisAbre}{TipoDeDato}{WhiteSpace}{identificador}{ParentesisCierre}
-
-DeclaracionPrincipal = {PalClavFuncion}{WhiteSpace}numero{WhiteSpace}{PalClavPrincipal}{ParentesisAbre}{ParentesisCierre}{DosPuntos} |
-            {PalClavFuncion}{WhiteSpace}numero{WhiteSpace}{PalClavPrincipal}{Argumentos}{DosPuntos}
-DeclaracionClase = {PalClavClase}{WhiteSpace}{identificador}{DosPuntos}
 ArchivoExcel = {identificador}{Punto}xslx
 
 PalClavIterar = iterar
@@ -67,20 +63,19 @@ PalClavArchivos = archivos
 OperadorMatematico = \+ | \- | \* | \/ | \= | \^ | \%
 OperadorLogico = AND | OR
 %%
-{DeclaracionPrincipal} {
+{WhiteSpace} {
+}
+{PalClavPrincipal} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
-    tokens.get(contador).setNombre("Función Principal");
+    tokens.get(contador).setNombre(yytext());
     //System.out.print(" Función principal ");
 }
-/*{DeclaracionClase} {
-    System.out.print(" Declaración clase ");
-}*/
 {TipoDeDato} {
     tokens.add(new ArrayListTokens());
     contador++;
-    tokens.get(contador).setTipo_token("Palabra clave");
+    tokens.get(contador).setTipo_token("Tipo de Dato");
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" tipo de dato ");
 }
@@ -90,6 +85,36 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Archivo");
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" Archivo excel ");
+}
+{DosPuntos} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{ParentesisAbre} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{ParentesisCierre} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{Comillas} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
+}
+{Punto} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Elemento individual");
+    tokens.get(contador).setNombre(yytext());
 }
 {PalClavFuncion} {
     tokens.add(new ArrayListTokens());

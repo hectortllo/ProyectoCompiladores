@@ -1,0 +1,36 @@
+package proyectocompiladores;
+import java_cup.runtime.Symbol;
+
+parser code {:
+//El código que vaya acá se va a poner en EjemploSintactico.java
+@Override
+    public void syntax_error(Symbol cur_token) {
+        Tokens t = (Tokens)cur_token.value;
+        done_parsing(); //Finaliza la ejecución al encontrar un error
+        report_error("Error sintáctico: [" + t.getRow() + ", " + t.getCol() + "]: " 
+                +t.getLexema(), null);
+    }
+:}
+//Declaración de símbolos terminales;
+terminal Tokens PALCLAVCLASE;
+terminal Tokens IDENTIFICADOR;
+terminal Tokens DOSPUNTOS;
+terminal Tokens ESPBLANCO;
+
+//Declaración de símbolos no terminales;
+non terminal expresiones;
+non terminal expresion;
+non terminal String DECCLASE;
+
+//Declarando símbolo inicial
+start with expresiones;
+
+//Producciones
+expresiones ::= expresiones expresion | expresion ;
+expresion ::= DECCLASE:dc {:
+        System.out.println("Declaración de clase");
+    :};
+DECCLASE ::= PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp {:
+        System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
+    :};
+    

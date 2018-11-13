@@ -1,14 +1,21 @@
-package herramientas;
+package proyectocompiladores;
 import proyectocompiladores.ArrayListTokens;
 import java.util.ArrayList;
+import java_cup.runtime.Symbol;
 
 %%
 %class Lexico
 %line
 %column
+%cup
 %public
 
-%standalone
+%eofval{
+  //System.out.println("Fin de archivo encontrado");
+  return new Symbol(sym.EOF);
+%eofval}
+%eofclose
+
 %init{
     this.tokens = new ArrayList<>();
 %init}
@@ -88,6 +95,11 @@ OperadorMatematico = {Suma} | {Resta} | \* | \/ | \= | \^ | \% | {Suma}{Suma} | 
 OperadorLogico = AND | OR
 %%
 {WhiteSpace} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Espacio en blanco");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.ESPBLANCO, new Tokens(yycolumn, yyline, yytext()));
 }
 {Mensaje} {
     tokens.add(new ArrayListTokens());
@@ -169,6 +181,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.DOSPUNTOS, new Tokens(yycolumn, yyline, yytext()));
 }
 {ParentesisAbre} {
     tokens.add(new ArrayListTokens());
@@ -262,6 +275,8 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
     //System.out.print(" Palabra clave ");
+    return new Symbol(sym.PALCLAVCLASE, new Tokens(yycolumn, yyline, yytext() ));
+    
     /*for(int i=0; i<=contador; i++){
         System.out.println("Tipo de token: " + tokens.get(i).getTipo_token());
         System.out.println("Tipo de token: " + tokens.get(i).getNombre());
@@ -396,6 +411,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Identificador");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.IDENTIFICADOR, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Identificador ");
 }
 {OperadorMatematico} {

@@ -25,6 +25,8 @@ import java_cup.runtime.Symbol;
     public static int contador = -1;
 %}
 TipoDeDato = cadena | numero | booleano
+Tabulador = \t
+Tabuladores = {Tabulador}*
 LineTerminator = \r|\n|\r\n
 WhiteSpace = \s
 Numeros = 0 | [1-9][0-9]*
@@ -68,7 +70,7 @@ ArchivoExcel = {identificador}{Punto}xslx | {identificador}{Punto}ods
 
 PalClavIterar = iterar
 PalClavEn = en
-PalClavInc = incrementar 
+PalClavInc = incrementar
 PalClavDec = decrementar
 PalClavDesde = desde
 PalClavMientras = mientras
@@ -94,6 +96,20 @@ PalClavEntonces = entonces
 OperadorMatematico = {Suma} | {Resta} | \* | \/ | \= | \^ | \% | {Suma}{Suma} | {Resta}{Resta}
 OperadorLogico = AND | OR
 %%
+{Tabulador} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Tabulador");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.TAB, new Tokens(yycolumn, yyline, yytext()));
+}
+{Tabuladores} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Tabuladores");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.TABS, new Tokens(yycolumn, yyline, yytext()));
+}
 {LineTerminator} {
     tokens.add(new ArrayListTokens());
     contador++;
@@ -140,6 +156,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Archivo");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.ARCHIVOEXCEL, new Tokens(yycolumn, yyline, yytext()));  
     //System.out.print(" Archivo excel ");
 }
 {ArchivoSuma} {
@@ -302,6 +319,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVPROPIEDADES, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavVariables} {
@@ -309,6 +327,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVVARIABLES, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavCodigo} {
@@ -323,6 +342,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVMETODOS, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavRetornar} {
@@ -365,6 +385,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVARCHIVOS, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavDesde} {
@@ -440,6 +461,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Fin de línea");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PCOMA, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Fin de línea ");
 }
 {CondicionMayor} {

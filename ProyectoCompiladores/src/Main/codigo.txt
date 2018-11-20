@@ -1,2 +1,9 @@
+incluir "funciones.led"
 clase numeros:
 funcion numero principal():
+	propiedades:
+		archivos:
+			archivo1 reporte1.xslx;
+		variables:
+			numero dato;
+	metodos:

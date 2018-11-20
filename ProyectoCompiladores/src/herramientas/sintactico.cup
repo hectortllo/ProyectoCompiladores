@@ -14,18 +14,26 @@ parser code {:
 //Declaración de símbolos terminales;
 terminal Tokens PALCLAVCLASE;
 terminal Tokens IDENTIFICADOR;
-terminal Tokens DOSPUNTOS;
-terminal Tokens ESPBLANCO;
 terminal Tokens PALCLAVPRINCIPAL;
 terminal Tokens PALCLAVFUNCION;
 terminal Tokens PALCLAVINCLUIR;
+terminal Tokens PALCLAVPROPIEDADES;
+terminal Tokens PALCLAVMETODOS;
+terminal Tokens PALCLAVARCHIVOS;
+terminal Tokens PALCLAVVARIABLES;
+
+terminal Tokens ARCHIVOEXCEL;
 terminal Tokens TIPODEDATO;
 terminal Tokens ARCHIVOLED;
-
+terminal Tokens TAB;
 terminal Tokens FINLINEA;
 terminal Tokens PARENABRE;
 terminal Tokens PARENCIERRA;
 terminal Tokens COMILLAS;
+terminal Tokens TABS;
+terminal Tokens DOSPUNTOS;
+terminal Tokens ESPBLANCO;
+terminal Tokens PCOMA;
 
 //Declaración de símbolos no terminales;
 non terminal expresiones;
@@ -33,6 +41,12 @@ non terminal expresion;
 non terminal DECCLASE;
 non terminal DECFUNCIONPRIN;
 non terminal IMPORTARARCHIVOS;
+non terminal DECLARPROPIEDADES;
+non terminal DECLARMETODOS;
+non terminal DECLARARCHIVOS;
+non terminal ABRIREXCEL;
+non terminal DECLARPALCLAVVARIABLES;
+non terminal DECLARARVARIABLES;
 
 //Declarando símbolo inicial
 start with expresiones;
@@ -45,12 +59,28 @@ expresion ::= DECCLASE:dc {:
         System.out.println("Declaración de función principal");
     :} | IMPORTARARCHIVOS {:
         System.out.println("Incluyendo archivos");
+    :} | DECLARPROPIEDADES {:
+        System.out.println("Declarando propiedades");
+    :} | DECLARMETODOS {:
+        System.out.println("Declarando métodos");
+    :} | DECLARARCHIVOS {:
+        System.out.println("Declarando archivos");
+    :} | ABRIREXCEL {:
+        System.out.println("Abriendo excel");
+    :} | DECLARPALCLAVVARIABLES {:
+        System.out.println("Abriendo inicio de declaración de variables");
+    :} | DECLARARVARIABLES {:
+        System.out.println("Declarando variables");
     :};
+
+//Producción para reconocer una declaración de clase
 DECCLASE ::= PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
     :} | PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp {:
         System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
     :};
+
+//Producción para reconocer una declaración de método main
 DECFUNCIONPRIN ::= PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO PALCLAVPRINCIPAL:pcp PARENABRE:pa 
                PARENCIERRA:pc DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + pcp.getLexema() +
@@ -60,6 +90,51 @@ DECFUNCIONPRIN ::= PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO PALCLAV
         System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + pcp.getLexema() +
                 pa.getLexema() + pc.getLexema() + dp.getLexema());
     :};
-IMPORTARARCHIVOS ::= PALCLAVINCLUIR:pci ESPBLANCO COMILLAS:c ARCHIVOLED:aled COMILLAS {:
+
+//Producción para reconocer un importación de archivo
+IMPORTARARCHIVOS ::= PALCLAVINCLUIR:pci ESPBLANCO COMILLAS:c ARCHIVOLED:aled COMILLAS FINLINEA {:
         System.out.println(pci.getLexema() + " " + c.getLexema() + aled.getLexema() + c.getLexema());
+    :} | PALCLAVINCLUIR:pci ESPBLANCO COMILLAS:c ARCHIVOLED:aled COMILLAS {:
+        System.out.println(pci.getLexema() + " " + c.getLexema() + aled.getLexema() + c.getLexema());
+    :};
+
+//Producción para reconocer una declaración de propiedades
+DECLARPROPIEDADES ::= TAB PALCLAVPROPIEDADES:pcp DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcp.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVPROPIEDADES:pcp DOSPUNTOS:dp {:
+        System.out.println(pcp.getLexema() + dp.getLexema());
+    :};
+
+//Producción para reconocer una declaración de métodos
+DECLARMETODOS ::= TAB PALCLAVMETODOS:pcm DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcm.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVMETODOS:pcm DOSPUNTOS:dp {:
+        System.out.println(pcm.getLexema() + dp.getLexema());
+    :};
+
+//Producción para reconocer una declaración de archivos
+DECLARARCHIVOS ::= TABS PALCLAVARCHIVOS:pca DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pca.getLexema() + dp.getLexema());
+    :} | TABS PALCLAVARCHIVOS:pca DOSPUNTOS:dp {:
+        System.out.println(pca.getLexema() + dp.getLexema());
+    :};
+
+//Producción para reconocer la apertura de un excel
+ABRIREXCEL ::= TABS IDENTIFICADOR:id ESPBLANCO ARCHIVOEXCEL:ae PCOMA FINLINEA {:
+        System.out.println(id.getLexema() + " " + ae.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO ARCHIVOEXCEL:ae PCOMA {:
+        System.out.println(id.getLexema() + " " + ae.getLexema());
+    :};
+
+//Producción para reconocer un inicio de declaración de variables
+DECLARPALCLAVVARIABLES ::= TABS PALCLAVVARIABLES:pcv DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcv.getLexema() + dp.getLexema());
+    :} | TABS PALCLAVVARIABLES:pcv DOSPUNTOS:dp {:
+        System.out.println(pcv.getLexema() + dp.getLexema());
+    :};
+
+DECLARARVARIABLES ::= TABS TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PCOMA:pc FINLINEA {:
+        System.out.println(tdd.getLexema() + " " + id.getLexema() + pc.getLexema());
+    :} | TABS TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PCOMA:pc {:
+        System.out.println(tdd.getLexema() + " " + id.getLexema() + pc.getLexema());
     :};

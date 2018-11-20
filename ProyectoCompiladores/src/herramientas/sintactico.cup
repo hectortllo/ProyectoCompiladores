@@ -16,21 +16,50 @@ terminal Tokens PALCLAVCLASE;
 terminal Tokens IDENTIFICADOR;
 terminal Tokens DOSPUNTOS;
 terminal Tokens ESPBLANCO;
+terminal Tokens PALCLAVPRINCIPAL;
+terminal Tokens PALCLAVFUNCION;
+terminal Tokens PALCLAVINCLUIR;
+terminal Tokens TIPODEDATO;
+terminal Tokens ARCHIVOLED;
+
+terminal Tokens FINLINEA;
+terminal Tokens PARENABRE;
+terminal Tokens PARENCIERRA;
+terminal Tokens COMILLAS;
 
 //Declaración de símbolos no terminales;
 non terminal expresiones;
 non terminal expresion;
-non terminal String DECCLASE;
+non terminal DECCLASE;
+non terminal DECFUNCIONPRIN;
+non terminal IMPORTARARCHIVOS;
 
 //Declarando símbolo inicial
 start with expresiones;
 
 //Producciones
-expresiones ::= expresiones expresion | expresion ;
+expresiones ::= expresion expresiones | expresion ;
 expresion ::= DECCLASE:dc {:
         System.out.println("Declaración de clase");
+    :} | DECFUNCIONPRIN {:
+        System.out.println("Declaración de función principal");
+    :} | IMPORTARARCHIVOS {:
+        System.out.println("Incluyendo archivos");
     :};
-DECCLASE ::= PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp {:
+DECCLASE ::= PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
+    :} | PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp {:
         System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
     :};
-    
+DECFUNCIONPRIN ::= PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO PALCLAVPRINCIPAL:pcp PARENABRE:pa 
+               PARENCIERRA:pc DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + pcp.getLexema() +
+                pa.getLexema() + pc.getLexema() + dp.getLexema());
+    :} | PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO PALCLAVPRINCIPAL:pcp PARENABRE:pa 
+               PARENCIERRA:pc DOSPUNTOS:dp  {: 
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + pcp.getLexema() +
+                pa.getLexema() + pc.getLexema() + dp.getLexema());
+    :};
+IMPORTARARCHIVOS ::= PALCLAVINCLUIR:pci ESPBLANCO COMILLAS:c ARCHIVOLED:aled COMILLAS {:
+        System.out.println(pci.getLexema() + " " + c.getLexema() + aled.getLexema() + c.getLexema());
+    :};

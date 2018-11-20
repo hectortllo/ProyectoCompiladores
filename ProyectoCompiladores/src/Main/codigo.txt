@@ -1,1 +1,2 @@
-clase proyecto:
+clase numeros:
+funcion numero principal():

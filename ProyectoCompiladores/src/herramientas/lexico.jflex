@@ -25,14 +25,14 @@ import java_cup.runtime.Symbol;
     public static int contador = -1;
 %}
 TipoDeDato = cadena | numero | booleano
-SaltoDeLinea = \n
+LineTerminator = \r|\n|\r\n
 WhiteSpace = \s
 Numeros = 0 | [1-9][0-9]*
 Letras = [a-zA-Z]*
 LetrasIdentificador = [a-z]*
 ArchivoLed = {identificador}{Punto}led
 Mensaje = {Comillas}({WhiteSpace}*{Letras}*{WhiteSpace}*)*{Comillas}
-Comentarios = {Diagonal}{Diagonal}({WhiteSpace}*{Letras}*{WhiteSpace}*)*{SaltoDeLinea}
+Comentarios = {Diagonal}{Diagonal}({WhiteSpace}*{Letras}*{WhiteSpace}*)*{LineTerminator}
 
 Diagonal = \/
 ParentesisAbre = \(
@@ -94,6 +94,13 @@ PalClavEntonces = entonces
 OperadorMatematico = {Suma} | {Resta} | \* | \/ | \= | \^ | \% | {Suma}{Suma} | {Resta}{Resta}
 OperadorLogico = AND | OR
 %%
+{LineTerminator} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Espacio en blanco");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.FINLINEA, new Tokens(yycolumn, yyline, yytext()));
+}
 {WhiteSpace} {
     tokens.add(new ArrayListTokens());
     contador++;
@@ -118,13 +125,14 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
-    //System.out.print(" Función principal ");
+    return new Symbol(sym.PALCLAVPRINCIPAL, new Tokens(yycolumn, yyline, yytext()));
 }
 {TipoDeDato} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Tipo de Dato");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.TIPODEDATO, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" tipo de dato ");
 }
 {ArchivoExcel} {
@@ -188,12 +196,14 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PARENABRE, new Tokens(yycolumn, yyline, yytext()));
 }
 {ParentesisCierre} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PARENCIERRA, new Tokens(yycolumn, yyline, yytext()));
 }
 {CorcheteAbre} {
     tokens.add(new ArrayListTokens());
@@ -212,6 +222,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.COMILLAS, new Tokens(yycolumn, yyline, yytext()));
 }
 {Punto} {
     tokens.add(new ArrayListTokens());
@@ -230,6 +241,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Archivo a incluir");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.ARCHIVOLED, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavEn} {
     tokens.add(new ArrayListTokens());
@@ -260,6 +272,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVFUNCION, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Palabra clave ");
 }
 {PalClavIncluir} {
@@ -267,6 +280,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVINCLUIR, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Palabra clave ");
 }
 {PalClavClase} {

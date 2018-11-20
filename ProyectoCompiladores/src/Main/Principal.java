@@ -31,10 +31,10 @@ public class Principal {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
             ArrayList<ArrayListTokens> tokens = Lexico.tokens;
-            for(int i = 0; i <=tokens.size()-1; i++){
+            /*for(int i = 0; i <=tokens.size()-1; i++){
                 System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
                 System.out.println(" - Nombre: " + tokens.get(i).getNombre());
-            }
+            }*/
             Collections.sort(tokens);
             Archivo miArchivo = new Archivo();
             miArchivo.escribirArchivo(tokens);

@@ -67,7 +67,7 @@ ArchivoMenor = {Punto}menor
 identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros} | 
                 {LetrasIdentificador}{GuionBajo}{Letras}{Numeros}*
 ArchivoExcel = {identificador}{Punto}xslx | {identificador}{Punto}ods
-
+AccediendoPropiedad = {Tabuladores}{PalClavPropiedad}{Punto}{identificador}
 PalClavIterar = iterar
 PalClavEn = en
 PalClavInc = incrementar
@@ -93,7 +93,7 @@ PalClavSi = si
 PalClavSiNo = sino
 PalClavEntonces = entonces
 
-OperadorMatematico = {Suma} | {Resta} | \* | \/ | \= | \^ | \% | {Suma}{Suma} | {Resta}{Resta}
+OperadorMatematico = {Suma} | {Resta} | \* | \/ | \^ | \% | {Suma}{Suma} | {Resta}{Resta}
 OperadorLogico = AND | OR
 %%
 {Tabulador} {
@@ -246,12 +246,14 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PUNTO, new Tokens(yycolumn, yyline, yytext()));
 }
 {Coma} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.COMA, new Tokens(yycolumn, yyline, yytext()));
 }
 {ArchivoLed} {
     tokens.add(new ArrayListTokens());
@@ -259,6 +261,14 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Archivo a incluir");
     tokens.get(contador).setNombre(yytext());
     return new Symbol(sym.ARCHIVOLED, new Tokens(yycolumn, yyline, yytext()));
+}
+{AccediendoPropiedad} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Propiedad con identificador");
+    tokens.get(contador).setNombre(yytext());
+    System.out.println("Propiedad id");
+    return new Symbol(sym.PROPIEDADID, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavEn} {
     tokens.add(new ArrayListTokens());
@@ -271,18 +281,21 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVSI, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavEntonces} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVENTONCES, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavSiNo} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVSINO, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavFuncion} {
     tokens.add(new ArrayListTokens());
@@ -335,6 +348,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVCODIGO, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavMetodos} {
@@ -350,6 +364,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVRETORNAR, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavEscribir} {
@@ -378,6 +393,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    //return new Symbol(sym.PALCLAVPROPIEDAD, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavArchivos} {
@@ -439,6 +455,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Números");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.NUMERO, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Números ");
 }
 {identificador} {
@@ -454,6 +471,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Operador matemático");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.OPMATEMATICO, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Matemático ");
 }
 {PuntoYComa} {
@@ -463,6 +481,13 @@ OperadorLogico = AND | OR
     tokens.get(contador).setNombre(yytext());
     return new Symbol(sym.PCOMA, new Tokens(yycolumn, yyline, yytext()));
     //System.out.print(" Fin de línea ");
+}
+{Igual} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Igual");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.IGUAL, new Tokens(yycolumn, yyline, yytext() ));
 }
 {CondicionMayor} {
     tokens.add(new ArrayListTokens());
@@ -483,6 +508,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Condiciones");
     tokens.get(contador).setNombre(yytext());
+    //return new Symbol(sym.IGUAL, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Igual que ");
 }
 {CondicionDiferente} {

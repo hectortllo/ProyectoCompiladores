@@ -21,7 +21,15 @@ terminal Tokens PALCLAVPROPIEDADES;
 terminal Tokens PALCLAVMETODOS;
 terminal Tokens PALCLAVARCHIVOS;
 terminal Tokens PALCLAVVARIABLES;
+terminal Tokens PALCLAVCODIGO;
+terminal Tokens PALCLAVSI;
+terminal Tokens PALCLAVENTONCES;
+terminal Tokens PALCLAVRETORNAR;
+terminal Tokens PALCLAVSINO;
 
+terminal Tokens OPMATEMATICO;
+terminal Tokens PROPIEDADID;
+terminal Tokens IGUAL;
 terminal Tokens ARCHIVOEXCEL;
 terminal Tokens TIPODEDATO;
 terminal Tokens ARCHIVOLED;
@@ -34,6 +42,9 @@ terminal Tokens TABS;
 terminal Tokens DOSPUNTOS;
 terminal Tokens ESPBLANCO;
 terminal Tokens PCOMA;
+terminal Tokens COMA;
+terminal Tokens PUNTO;
+terminal Tokens NUMERO;
 
 //Declaración de símbolos no terminales;
 non terminal expresiones;
@@ -47,6 +58,16 @@ non terminal DECLARARCHIVOS;
 non terminal ABRIREXCEL;
 non terminal DECLARPALCLAVVARIABLES;
 non terminal DECLARARVARIABLES;
+non terminal DECFUNCION;
+non terminal DECCODIGO;
+non terminal ACCEDERPROPIEDAD;
+non terminal PARAMETRO;
+non terminal PARAMETROS;
+non terminal DECCONDICION;
+non terminal CONDICION;
+non terminal RETORNAR;
+non terminal DECSINO;
+non terminal ASIGNACION;
 
 //Declarando símbolo inicial
 start with expresiones;
@@ -71,8 +92,30 @@ expresion ::= DECCLASE:dc {:
         System.out.println("Abriendo inicio de declaración de variables");
     :} | DECLARARVARIABLES {:
         System.out.println("Declarando variables");
+    :} | DECFUNCION {:
+        System.out.println("Declarando funciones");
+    :} | DECCODIGO {:
+        System.out.println("Declarando inicio de código");
+    :} | DECCONDICION {:
+        System.out.println("Declarando condición");
+    :} | RETORNAR {:
+        System.out.println("Retorno");
+    :} | DECSINO {:
+        System.out.println("Sino");
+    :} | ASIGNACION {:
+        System.out.println("Asignación");
     :};
 
+//Parámetro para una función
+PARAMETRO ::= TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id {:
+        System.out.println(tdd.getLexema() + " " + id.getLexema());
+    :} | ESPBLANCO TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id {:
+        System.out.println(tdd.getLexema() + " " + id.getLexema());
+    :};
+//Parámetros para una función
+PARAMETROS ::= PARAMETRO COMA PARAMETROS | PARAMETRO {:
+        System.out.println("Varios parámetros" );
+    :};
 //Producción para reconocer una declaración de clase
 DECCLASE ::= PALCLAVCLASE:pcc ESPBLANCO IDENTIFICADOR:id DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcc.getLexema() + " " +id.getLexema() +dp.getLexema());
@@ -117,6 +160,10 @@ DECLARARCHIVOS ::= TABS PALCLAVARCHIVOS:pca DOSPUNTOS:dp FINLINEA {:
         System.out.println(pca.getLexema() + dp.getLexema());
     :} | TABS PALCLAVARCHIVOS:pca DOSPUNTOS:dp {:
         System.out.println(pca.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVARCHIVOS:pca DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pca.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVARCHIVOS:pca DOSPUNTOS:dp {:
+        System.out.println(pca.getLexema() + dp.getLexema());
     :};
 
 //Producción para reconocer la apertura de un excel
@@ -124,6 +171,12 @@ ABRIREXCEL ::= TABS IDENTIFICADOR:id ESPBLANCO ARCHIVOEXCEL:ae PCOMA FINLINEA {:
         System.out.println(id.getLexema() + " " + ae.getLexema());
     :} | TABS IDENTIFICADOR:id ESPBLANCO ARCHIVOEXCEL:ae PCOMA {:
         System.out.println(id.getLexema() + " " + ae.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO ARCHIVOEXCEL:ae COMA:c ABRIREXCEL {:
+        System.out.println(id.getLexema() + " " +c.getLexema() + " " + ae.getLexema());
+    :} | ESPBLANCO ARCHIVOEXCEL:ae PCOMA:pc FINLINEA {:
+        System.out.println(ae.getLexema() + pc.getLexema());
+    :} | ESPBLANCO ARCHIVOEXCEL:ae PCOMA:pc {:
+        System.out.println(ae.getLexema() + pc.getLexema());
     :};
 
 //Producción para reconocer un inicio de declaración de variables
@@ -131,10 +184,86 @@ DECLARPALCLAVVARIABLES ::= TABS PALCLAVVARIABLES:pcv DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcv.getLexema() + dp.getLexema());
     :} | TABS PALCLAVVARIABLES:pcv DOSPUNTOS:dp {:
         System.out.println(pcv.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVVARIABLES:pcv DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcv.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVVARIABLES:pcv DOSPUNTOS:dp {:
+        System.out.println(pcv.getLexema() + dp.getLexema());
     :};
 
+//Producción para reconocer declaración de variables
 DECLARARVARIABLES ::= TABS TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PCOMA:pc FINLINEA {:
-        System.out.println(tdd.getLexema() + " " + id.getLexema() + pc.getLexema());
+        System.out.println("Una sola variable " + tdd.getLexema() + " " + id.getLexema() + pc.getLexema());
     :} | TABS TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PCOMA:pc {:
         System.out.println(tdd.getLexema() + " " + id.getLexema() + pc.getLexema());
+    :} | TABS TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id COMA:c DECLARARVARIABLES {:
+        System.out.println(tdd.getLexema() + " " + id.getLexema() + c.getLexema());
+    :} | ESPBLANCO IDENTIFICADOR:id PCOMA:pc FINLINEA {:
+        System.out.println(id.getLexema() + pc.getLexema());
+    :} | ESPBLANCO IDENTIFICADOR:id PCOMA:pc {:
+        System.out.println(id.getLexema() + pc.getLexema());
+    :} | ESPBLANCO IDENTIFICADOR:id COMA:c {:
+        System.out.println(id.getLexema() + c.getLexema());
+    :};
+
+//Producción para reconocer declaración de funciones
+DECFUNCION ::= TABS PALCLAVFUNCION:pcf ESPBLANCO IDENTIFICADOR:id PARENABRE:pa PARENCIERRA:pc DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcf.getLexema() + " " + id.getLexema() + pa.getLexema() + pc.getLexema() + dp.getLexema());
+    :} | TABS PALCLAVFUNCION:pcf ESPBLANCO IDENTIFICADOR:id PARENABRE:pa PARENCIERRA:pc DOSPUNTOS:dp {:
+        System.out.println(pcf.getLexema() + " " + id.getLexema() + pa.getLexema() + pc.getLexema() + dp.getLexema());
+    :} | PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PARENABRE:pa 
+            PARAMETROS PARENCIERRA:pc DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + id.getLexema() + pa.getLexema() + 
+            pc.getLexema() + dp.getLexema());
+    :} | PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PARENABRE:pa 
+            PARAMETROS PARENCIERRA:pc DOSPUNTOS:dp {:
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + id.getLexema() + pa.getLexema() + 
+            pc.getLexema() + dp.getLexema());
+    :}  | PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PARENABRE:pa 
+            PARENCIERRA:pc DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + id.getLexema() + pa.getLexema() + 
+            pc.getLexema() + dp.getLexema());
+    :}  | PALCLAVFUNCION:pcf ESPBLANCO TIPODEDATO:tdd ESPBLANCO IDENTIFICADOR:id PARENABRE:pa 
+            PARENCIERRA:pc DOSPUNTOS:dp {:
+        System.out.println(pcf.getLexema() + " " + tdd.getLexema() + " " + id.getLexema() + pa.getLexema() + 
+            pc.getLexema() + dp.getLexema());
+    :};
+
+//Producción para iniciar sección de código
+DECCODIGO ::= TABS PALCLAVCODIGO:pcc DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcc.getLexema() + dp.getLexema());
+    :} | TABS PALCLAVCODIGO:pcc DOSPUNTOS:dp {:
+        System.out.println(pcc.getLexema() + dp.getLexema());
+    :} | TAB PALCLAVCODIGO:pcc DOSPUNTOS:dp FINLINEA{:
+        System.out.println(pcc.getLexema() + dp.getLexema());
+    :}  | TAB PALCLAVCODIGO:pcc DOSPUNTOS:dp {:
+        System.out.println(pcc.getLexema() + dp.getLexema());
+    :};
+
+//Producción para condiciones
+CONDICION ::= PARENABRE IDENTIFICADOR ESPBLANCO OPMATEMATICO ESPBLANCO NUMERO PARENCIERRA {:
+            System.out.println("Condición");
+    :};
+
+//Producción para reconocer condición
+DECCONDICION ::= TABS PALCLAVSI:pcs CONDICION ESPBLANCO PALCLAVENTONCES:pce DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcs.getLexema() + " condición " + pce.getLexema() + dp.getLexema());
+    :};
+
+//Producción para validar un retornar
+RETORNAR ::= TABS PALCLAVRETORNAR:pcr ESPBLANCO NUMERO:n PCOMA:pc FINLINEA {:
+        System.out.println(pcr.getLexema()+ " " + n.getLexema() + pc.getLexema());
+    :} | TABS PALCLAVRETORNAR:pcr ESPBLANCO NUMERO:n PCOMA:pc {:
+        System.out.println(pcr.getLexema()+ " " + n.getLexema() + pc.getLexema());
+    :};
+
+//Producción para declaración de un 'sino'
+DECSINO ::= TABS PALCLAVSINO:pcs DOSPUNTOS:dp FINLINEA {:
+        System.out.println(pcs.getLexema() + dp.getLexema());
+    :} | TABS PALCLAVSINO:pcs DOSPUNTOS:dp {:
+        System.out.println(pcs.getLexema() + dp.getLexema());
+    :};
+
+//Producción para validar una asignación
+ASIGNACION ::= TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO NUMERO:n PCOMA:pc {:
+        System.out.println(id.getLexema() + " " + i.getLexema() + " " + n.getLexema() + pc.getLexema());
     :};

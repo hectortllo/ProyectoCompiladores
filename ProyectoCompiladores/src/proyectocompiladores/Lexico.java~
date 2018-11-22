@@ -1106,7 +1106,6 @@ public class Lexico implements java_cup.runtime.Scanner {
     contador++;
     tokens.get(contador).setTipo_token("Igual");
     tokens.get(contador).setNombre(yytext());
-    System.out.println(yytext());
     return new Symbol(sym.IGUAL, new Tokens(yycolumn, yyline, yytext() ));
             }
           case 62: break;

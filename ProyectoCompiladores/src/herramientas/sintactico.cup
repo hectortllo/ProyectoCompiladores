@@ -68,6 +68,7 @@ non terminal CONDICION;
 non terminal RETORNAR;
 non terminal DECSINO;
 non terminal ASIGNACION;
+non terminal PARCOMILLAS;
 
 //Declarando símbolo inicial
 start with expresiones;
@@ -263,7 +264,13 @@ DECSINO ::= TABS PALCLAVSINO:pcs DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcs.getLexema() + dp.getLexema());
     :};
 
+PARCOMILLAS ::= COMILLAS COMILLAS {:
+    :};
 //Producción para validar una asignación
 ASIGNACION ::= TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO NUMERO:n PCOMA:pc {:
         System.out.println(id.getLexema() + " " + i.getLexema() + " " + n.getLexema() + pc.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO NUMERO:n PCOMA:pc FINLINEA {:
+        System.out.println(id.getLexema() + " " + i.getLexema() + " " + n.getLexema() + pc.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO PARCOMILLAS PCOMA:pc {:
+        System.out.println(id.getLexema() + " " + i.getLexema() + " " + pc.getLexema());
     :};

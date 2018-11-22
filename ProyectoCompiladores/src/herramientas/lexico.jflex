@@ -67,7 +67,7 @@ ArchivoMenor = {Punto}menor
 identificador = {LetrasIdentificador}{Letras} | {LetrasIdentificador}{Letras}{Numeros} | 
                 {LetrasIdentificador}{GuionBajo}{Letras}{Numeros}*
 ArchivoExcel = {identificador}{Punto}xslx | {identificador}{Punto}ods
-AccediendoPropiedad = {Tabuladores}{PalClavPropiedad}{Punto}{identificador}
+AccediendoPropiedad = {PalClavPropiedad}{Punto}{identificador}
 PalClavIterar = iterar
 PalClavEn = en
 PalClavInc = incrementar
@@ -123,6 +123,13 @@ OperadorLogico = AND | OR
     tokens.get(contador).setTipo_token("Espacio en blanco");
     tokens.get(contador).setNombre(yytext());
     return new Symbol(sym.ESPBLANCO, new Tokens(yycolumn, yyline, yytext()));
+}
+{Suma} {
+    tokens.add(new ArrayListTokens());
+    contador++;
+    tokens.get(contador).setTipo_token("Operador matemático");
+    tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.SUMA, new Tokens(yycolumn, yyline, yytext()));
 }
 {Mensaje} {
     tokens.add(new ArrayListTokens());
@@ -270,7 +277,6 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Propiedad con identificador");
     tokens.get(contador).setNombre(yytext());
-    System.out.println("Propiedad id");
     return new Symbol(sym.PROPIEDADID, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavEn} {
@@ -278,6 +284,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVEN, new Tokens(yycolumn, yyline, yytext()));
 }
 {PalClavSi} {
     tokens.add(new ArrayListTokens());
@@ -414,18 +421,21 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVDESDE, new Tokens(yycolumn, yyline, yytext() ));
 }
 {PalClavMientras} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVMIENTRAS, new Tokens(yycolumn, yyline, yytext() ));
 }
 {PalClavInc} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVINC, new Tokens(yycolumn, yyline, yytext() ));
 }
 {PalClavDec} {
     tokens.add(new ArrayListTokens());
@@ -438,12 +448,14 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVITERAR, new Tokens(yycolumn, yyline, yytext() ));
 }
 {PalClavParacada} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Palabra clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVPARACADA, new Tokens(yycolumn, yyline, yytext() ));
 }
 /*{Argumentos} {
     System.out.print(" Argumento ");
@@ -506,6 +518,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Condiciones");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.MENORQUE, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Menor que ");
 }
 {CondicionIgual} {

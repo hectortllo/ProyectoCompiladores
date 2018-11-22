@@ -13,8 +13,10 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
@@ -57,9 +59,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtTokens = new javax.swing.JTextPane();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtArchivo = new javax.swing.JTextPane();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         lblCerrar = new javax.swing.JLabel();
@@ -81,35 +83,33 @@ public class Principal extends javax.swing.JFrame {
                 btnAbrirArchivoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAbrirArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 170, -1));
+        jPanel1.add(btnAbrirArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, 170, -1));
 
         jLabel1.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Tokens");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 220, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 220, -1));
 
         txtTokens.setBackground(new java.awt.Color(102, 102, 102));
         txtTokens.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 24)); // NOI18N
-        txtTokens.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(txtTokens);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 220, 320));
-
-        jLabel2.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Archivo");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 220, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 260, 370));
 
         txtArchivo.setBackground(new java.awt.Color(102, 102, 102));
         txtArchivo.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 24)); // NOI18N
-        txtArchivo.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setViewportView(txtArchivo);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 80, 220, 320));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 260, 370));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 710, 430));
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Archivo");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 220, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 740, 500));
 
         jPanel2.setBackground(new java.awt.Color(102, 102, 102));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -142,7 +142,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 472, Short.MAX_VALUE)
                 .addComponent(lblCerrar)
                 .addGap(18, 18, 18))
         );
@@ -156,7 +156,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -176,14 +176,18 @@ public class Principal extends javax.swing.JFrame {
                     sintactico.parse();
                 } catch (Exception ex) {
                     Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-                }ArrayList<ArrayListTokens> tokens = Lexico.tokens;
-            /*for(int i = 0; i <=tokens.size()-1; i++){
-                System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
-                System.out.println(" - Nombre: " + tokens.get(i).getNombre());
-            }*/
-            Collections.sort(tokens);
-            Archivo miArchivo = new Archivo();
-            miArchivo.escribirArchivo(tokens);
+                }
+                ArrayList<ArrayListTokens> tokens = Lexico.tokens;
+                for(int i = 0; i <=tokens.size()-1; i++){
+                txtTokens.setText(txtTokens.getText() + 
+                        "Tipo de token: " + tokens.get(i).getTipo_token() + "\n");
+                txtTokens.setText(txtTokens.getText() + " - Nombre: " + tokens.get(i).getNombre() + "\n");
+                }
+                Collections.sort(tokens);
+                Archivo miArchivo = new Archivo();
+                miArchivo.escribirArchivo(tokens);
+                
+                leerArchivo(ruta);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -206,7 +210,32 @@ public class Principal extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblCerrarMouseClicked
 
-    /**
+    private void leerArchivo(String archivo)
+    {
+        FileReader file = null;
+        try {
+            String cadena;
+            file = new FileReader(archivo);
+            BufferedReader breader = new BufferedReader(file);
+            try {
+                while((cadena = breader.readLine())!= null)
+                {
+                    txtArchivo.setText(txtArchivo.getText() + cadena + "\n");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                file.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+        /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -247,7 +276,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JFileChooser FileChooser;
     private javax.swing.JButton btnAbrirArchivo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

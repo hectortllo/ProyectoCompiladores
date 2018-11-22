@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import GUI.Principal;
 
 /**
  *
@@ -41,6 +42,6 @@ public class Archivo {
     File f = new File("Tokens.txt");
     if(f.exists()){
         f.delete();
+        }
     }
-}
 }

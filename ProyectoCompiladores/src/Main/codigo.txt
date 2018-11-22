@@ -6,10 +6,11 @@ funcion numero principal():
 			archivo1 reporte1.xslx;
 		variables:
 			numero dato;
-			numero dato1, dato2, dato3;
+			numero dato1, dato2;
 	metodos:
 		funcion contador():
 			codigo:
+				propiedad.i = propiedad.i + 5;
 funcion numero esImpar(numero num, numero num2):
 	codigo:
 		si(num % 2) entonces:
@@ -31,3 +32,8 @@ funcion numero hola_mundo():
 		abrir archivo_unitario;
 		a = archivo_unitario[3,4];
 		nombre = archivo_unitario[2,3,4];
+		abrir archivos_clientes;
+		desde(contador=1 mientras contador<10 incrementar 1) iterar:
+			escribir "el total es", contador;
+		paracada(archivo en archivos_varios) iterar:
+			escribir "el total es", contador;

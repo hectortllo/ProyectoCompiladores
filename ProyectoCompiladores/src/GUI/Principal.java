@@ -13,7 +13,17 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import proyectocompiladores.AnalisisSintactico;
+import proyectocompiladores.Archivo;
+import proyectocompiladores.ArrayListTokens;
+import proyectocompiladores.Lexico;
 
 /**
  *
@@ -157,8 +167,26 @@ public class Principal extends javax.swing.JFrame {
 
         byte decision = (byte) FileChooser.showOpenDialog(null);                 //este metodo no recuerdo que hace :V
         if (decision == 0) {
-            String ruta = FileChooser.getSelectedFile().toString();
-            System.out.println(ruta);
+            try {
+                String ruta = FileChooser.getSelectedFile().toString();
+                System.out.println(ruta);
+                Lexico lexico = new Lexico(new FileReader(ruta));
+                AnalisisSintactico sintactico = new AnalisisSintactico(lexico);
+                try {
+                    sintactico.parse();
+                } catch (Exception ex) {
+                    Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }ArrayList<ArrayListTokens> tokens = Lexico.tokens;
+            /*for(int i = 0; i <=tokens.size()-1; i++){
+                System.out.print("Tipo de token: " + tokens.get(i).getTipo_token());
+                System.out.println(" - Nombre: " + tokens.get(i).getNombre());
+            }*/
+            Collections.sort(tokens);
+            Archivo miArchivo = new Archivo();
+            miArchivo.escribirArchivo(tokens);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnAbrirArchivoActionPerformed
 

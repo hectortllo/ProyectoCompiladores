@@ -129,6 +129,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Mensaje");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.MENSAJE, new Tokens(yycolumn, yyline, yytext()));
 }
 {Comentarios} {
     tokens.add(new ArrayListTokens());
@@ -227,12 +228,14 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.CORCHABRE, new Tokens(yycolumn, yyline, yytext()));
 }
 {CorcheteCierre} {
     tokens.add(new ArrayListTokens());
     contador++;
     tokens.get(contador).setTipo_token("Elemento individual");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.CORCHCIERRA, new Tokens(yycolumn, yyline, yytext()));
 }
 {Comillas} {
     tokens.add(new ArrayListTokens());
@@ -372,6 +375,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVESCRIBIR, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavAbrir} {
@@ -379,6 +383,7 @@ OperadorLogico = AND | OR
     contador++;
     tokens.get(contador).setTipo_token("Palabra Clave");
     tokens.get(contador).setNombre(yytext());
+    return new Symbol(sym.PALCLAVABRIR, new Tokens(yycolumn, yyline, yytext() ));
     //System.out.print(" Palabra clave ");
 }
 {PalClavInstanciar} {

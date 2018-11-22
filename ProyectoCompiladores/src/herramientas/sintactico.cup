@@ -26,6 +26,8 @@ terminal Tokens PALCLAVSI;
 terminal Tokens PALCLAVENTONCES;
 terminal Tokens PALCLAVRETORNAR;
 terminal Tokens PALCLAVSINO;
+terminal Tokens PALCLAVESCRIBIR;
+terminal Tokens PALCLAVABRIR;
 
 terminal Tokens OPMATEMATICO;
 terminal Tokens PROPIEDADID;
@@ -45,6 +47,9 @@ terminal Tokens PCOMA;
 terminal Tokens COMA;
 terminal Tokens PUNTO;
 terminal Tokens NUMERO;
+terminal Tokens MENSAJE;
+terminal Tokens CORCHABRE;
+terminal Tokens CORCHCIERRA;
 
 //Declaración de símbolos no terminales;
 non terminal expresiones;
@@ -68,7 +73,10 @@ non terminal CONDICION;
 non terminal RETORNAR;
 non terminal DECSINO;
 non terminal ASIGNACION;
-non terminal PARCOMILLAS;
+non terminal ESCRIBIRTEXTO;
+non terminal ABRIENDOEXCEL;
+non terminal VARIABLEARCHIVO;
+non terminal OPERACIONARCHIVOS;
 
 //Declarando símbolo inicial
 start with expresiones;
@@ -105,6 +113,12 @@ expresion ::= DECCLASE:dc {:
         System.out.println("Sino");
     :} | ASIGNACION {:
         System.out.println("Asignación");
+    :} | ESCRIBIRTEXTO {:
+        System.out.println("Escribiendo mensaje");
+    :} | ABRIENDOEXCEL {:
+        System.out.println("Abrir excel");
+    :} | OPERACIONARCHIVOS {:
+        System.out.println("Trabajando con archivos");
     :};
 
 //Parámetro para una función
@@ -264,13 +278,49 @@ DECSINO ::= TABS PALCLAVSINO:pcs DOSPUNTOS:dp FINLINEA {:
         System.out.println(pcs.getLexema() + dp.getLexema());
     :};
 
-PARCOMILLAS ::= COMILLAS COMILLAS {:
-    :};
 //Producción para validar una asignación
 ASIGNACION ::= TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO NUMERO:n PCOMA:pc {:
         System.out.println(id.getLexema() + " " + i.getLexema() + " " + n.getLexema() + pc.getLexema());
     :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO NUMERO:n PCOMA:pc FINLINEA {:
         System.out.println(id.getLexema() + " " + i.getLexema() + " " + n.getLexema() + pc.getLexema());
-    :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO PARCOMILLAS PCOMA:pc {:
-        System.out.println(id.getLexema() + " " + i.getLexema() + " " + pc.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO MENSAJE:c PCOMA:pc FINLINEA {:
+        System.out.println(id.getLexema() + " " + i.getLexema() + c.getLexema() + pc.getLexema());
+    :} | TABS IDENTIFICADOR:id ESPBLANCO IGUAL:i ESPBLANCO MENSAJE:m PCOMA:pc {:
+        System.out.println(id.getLexema() + " " + i.getLexema() + " " + m.getLexema() + pc.getLexema());
     :};
+
+//Producción para reconocer la escritura en pantalla de un texto
+ESCRIBIRTEXTO ::= TABS PALCLAVESCRIBIR:pce ESPBLANCO MENSAJE:m PCOMA:pc FINLINEA {:
+        System.out.println(pce.getLexema() + " " + m.getLexema() + pc.getLexema());
+    :} | TABS PALCLAVESCRIBIR:pce ESPBLANCO MENSAJE:m PCOMA:pc {:
+        System.out.println(pce.getLexema() + " " + m.getLexema() + pc.getLexema());
+    :} | TAB PALCLAVESCRIBIR:pce ESPBLANCO MENSAJE:m PCOMA:pc FINLINEA {:
+        System.out.println(pce.getLexema() + " " + m.getLexema() + pc.getLexema());
+    :} | TAB PALCLAVESCRIBIR:pce ESPBLANCO MENSAJE:m PCOMA:pc {:
+        System.out.println(pce.getLexema() + " " + m.getLexema() + pc.getLexema());
+    :};
+
+//Producción para reconocer la apertura de un archivo
+ABRIENDOEXCEL ::= TABS PALCLAVABRIR:pca ESPBLANCO IDENTIFICADOR:id PCOMA:pc FINLINEA {:
+        System.out.println(pca.getLexema() + " " + id.getLexema() + pc.getLexema());
+    :} | TABS PALCLAVABRIR:pca ESPBLANCO IDENTIFICADOR:id PCOMA:pc {:
+        System.out.println(pca.getLexema() + " " + id.getLexema() + pc.getLexema());
+    :};
+
+VARIABLEARCHIVO ::= NUMERO:n COMA:pc VARIABLEARCHIVO {:
+        System.out.println("más de un dato" + n.getLexema() + pc.getLexema());
+    :} | NUMERO:n COMA:pc {:
+        System.out.println("número, coma" + n.getLexema() + pc.getLexema());
+    :} | NUMERO:n {:
+        System.out.println("número: " + n.getLexema());
+    :};
+
+//Producción para trabajar operaciones con los archivos
+OPERACIONARCHIVOS ::= TABS IDENTIFICADOR ESPBLANCO IGUAL ESPBLANCO IDENTIFICADOR 
+            CORCHABRE VARIABLEARCHIVO CORCHCIERRA PCOMA FINLINEA {:
+       System.out.println("Operando archivos");
+    :} | TABS IDENTIFICADOR ESPBLANCO IGUAL ESPBLANCO IDENTIFICADOR 
+            CORCHABRE VARIABLEARCHIVO CORCHCIERRA PCOMA {:
+       System.out.println("Operando archivos");
+    :};
+
